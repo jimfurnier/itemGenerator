@@ -26,13 +26,13 @@ var supportedDelimiters = map[string]DelimiterType{
 	"tab":   {Name: "tab", Char: '\t', Extension: ".tsv"},
 }
 
-func NewWriteSpec(cfg *config.Config, rows *int) (*WriteSpec, error) {
-	d, ok := supportedDelimiters[cfg.Delimiter]
+func NewWriteSpec(cfg *config.Config) (*WriteSpec, error) {
+	d, ok := supportedDelimiters[cfg.GetDelimiter()]
 	if !ok {
-		return nil, fmt.Errorf("unsupported delimiter: %s", cfg.Delimiter)
+		return nil, fmt.Errorf("unsupported delimiter: %s", cfg.GetDelimiter())
 	}
 
-	return &WriteSpec{name: d.Name, path: OutDirectory + cfg.OutputName + d.Extension, headers: cfg.GetHeaders(), count: *rows, compression: cfg.Compression}, nil
+	return &WriteSpec{name: d.Name, path: OutDirectory + cfg.GetOutputName() + d.Extension, headers: cfg.GetHeaders(), count: cfg.GetRows(), compression: cfg.GetCompression()}, nil
 }
 
 func (spec *WriteSpec) Path() string {

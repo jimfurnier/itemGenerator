@@ -20,7 +20,7 @@ func (fileWriter *DefaultFileWriter) Write(spec *WriteSpec) (*WriteResult, error
 	// Create writer and defer closing
 	writer, err := NewWriter(spec)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer func(writer Writer) {
 		err := writer.Close()
@@ -32,7 +32,7 @@ func (fileWriter *DefaultFileWriter) Write(spec *WriteSpec) (*WriteResult, error
 	// Write the headers
 	err = writer.WriteHeader(spec.headers)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	// Write the rows
@@ -40,7 +40,7 @@ func (fileWriter *DefaultFileWriter) Write(spec *WriteSpec) (*WriteResult, error
 		row := fileWriter.generator.GenerateRow(i)
 		err := writer.WriteRow(row)
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
 	}
 

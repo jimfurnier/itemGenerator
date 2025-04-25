@@ -20,9 +20,18 @@ func New(cfg *config.Config) *Generator {
 }
 
 func (g *Generator) GenerateRow(id int) []string {
-	row := make([]string, len(g.cfg.Columns))
-	for i, col := range g.cfg.Columns {
+	row := make([]string, len(g.cfg.GetColumns()))
+	for i, col := range g.cfg.GetColumns() {
+		if col.Optional < config.OptionalDefault {
+			if rand.Intn(config.OptionalDefault) >= col.Optional {
+				row[i] = ""
+				continue
+			}
+		}
+
 		switch col.Type {
+		case "rowNumber":
+			row[i] = strconv.Itoa(id)
 		case "string":
 			row[i] = gofakeit.Word()
 		case "sentence":
@@ -49,11 +58,32 @@ func (g *Generator) GenerateRow(id int) []string {
 			row[i] = gofakeit.Color()
 		case "uuid":
 			row[i] = gofakeit.UUID()
+		case "product":
+			row[i] = gofakeit.ProductName()
+		case "category":
+			row[i] = gofakeit.ProductCategory()
+		case "description":
+			row[i] = gofakeit.ProductDescription()
+		case "material":
+			row[i] = gofakeit.ProductMaterial()
 		case "null":
 			row[i] = ""
+		case "random":
+			if len(col.Random) > 0 {
+				row[i] = pickRandom(col.Random)
+			} else {
+				row[i] = ""
+			}
 		default:
 			row[i] = "unknown"
 		}
 	}
 	return row
+}
+
+func pickRandom(options []string) string {
+	if len(options) == 0 {
+		return ""
+	}
+	return options[rand.Intn(len(options))]
 }

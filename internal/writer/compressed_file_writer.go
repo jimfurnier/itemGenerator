@@ -16,22 +16,20 @@ func NewCompressedFileWriter(fw FileWriter) *CompressedFileWriter {
 func (f *CompressedFileWriter) Write(spec *WriteSpec) (*WriteResult, error) {
 	result, err := f.fw.Write(spec)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	switch spec.Compression() {
 	case "zip", "gzip":
 		comp, err := compressor.GetCompressor(spec.Compression())
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
 
 		newPath, err := comp.Compress(result.Path())
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
-
-		fmt.Printf("File compressed with %s to %s\n", spec.Compression(), newPath)
 
 		return NewResult(newPath, spec.count), nil
 	case "none":
@@ -39,6 +37,4 @@ func (f *CompressedFileWriter) Write(spec *WriteSpec) (*WriteResult, error) {
 	default:
 		return nil, fmt.Errorf("invalid compression type used: %s", spec.Compression())
 	}
-
-	return result, nil
 }
