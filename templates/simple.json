@@ -1,0 +1,10 @@
+{
+  "output_name": "simple",
+  "compression": "none",
+  "delimiter": "comma",
+  "columns": [
+    {"name": "id", "type": "integer"},
+    {"name": "name", "type": "string"},
+    {"name": "price", "type": "float"}
+  ]
+}

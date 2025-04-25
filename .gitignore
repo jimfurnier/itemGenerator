@@ -2,7 +2,7 @@
 .env.local
 dist
 
-./generate
+*build/
 
 .idea
 .DS_Store*
