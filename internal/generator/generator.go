@@ -47,6 +47,8 @@ func (g *Generator) GenerateRow(id int) []string {
 			row[i] = gofakeit.Gender()
 		case "color":
 			row[i] = gofakeit.Color()
+		case "uuid":
+			row[i] = gofakeit.UUID()
 		case "null":
 			row[i] = ""
 		default:
