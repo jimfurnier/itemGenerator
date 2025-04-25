@@ -1,0 +1,17 @@
+.env
+.env.local
+dist
+
+./generate
+
+.idea
+.DS_Store*
+
+*.zip
+*.gz
+*.csv
+*.tsv
+*.o
+*.so
+*.swp
+
