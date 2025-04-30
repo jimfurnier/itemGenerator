@@ -39,3 +39,7 @@ func (c *Config) GetRows() int {
 func (c *Config) ForceCompression(compression string) {
 	c.compression = compression
 }
+
+func (c *Config) ForceOutputName(outputName string) {
+	c.outputName = outputName
+}

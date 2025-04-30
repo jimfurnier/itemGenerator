@@ -13,6 +13,7 @@ func main() {
 	rows := flag.Int("rows", 100, "Number of rows to generate")
 	templatePath := flag.String("template", "", "Path to template JSON file")
 	compression := flag.String("compression", "", "Force the compress type, regardless of the template")
+	outputName := flag.String("output", "", "Force the output name, regardless of the template")
 	flag.Parse()
 
 	if *templatePath == "" {
@@ -27,6 +28,10 @@ func main() {
 	if *compression != "" {
 		fmt.Printf("Forcing compression: %s\n", *compression)
 		cfg.ForceCompression(*compression)
+	}
+	if *outputName != "" {
+		fmt.Printf("Forcing outputName: %s\n", *outputName)
+		cfg.ForceOutputName(*outputName)
 	}
 
 	result, err := app.Execute(cfg)
