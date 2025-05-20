@@ -5,6 +5,8 @@
   "columns": [
     {"name": "id", "type": "rowNumber"},
     {"name": "name", "type": "product"},
-    {"name": "price", "type": "float"}
+    {"name": "price", "type": "float"},
+    {"name": "link", "type": "image"},
+    {"name": "available", "type": "available"}
   ]
 }

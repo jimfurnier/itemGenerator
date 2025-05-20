@@ -31,7 +31,7 @@ func (g *Generator) GenerateRow(id int) []string {
 
 		switch col.Type {
 		case "rowNumber":
-			row[i] = strconv.Itoa(id)
+			row[i] = strconv.Itoa(id+1)
 		case "string":
 			row[i] = gofakeit.Word()
 		case "sentence":
@@ -66,6 +66,8 @@ func (g *Generator) GenerateRow(id int) []string {
 			row[i] = gofakeit.ProductDescription()
 		case "material":
 			row[i] = gofakeit.ProductMaterial()
+		case "available":
+			row[i] = strconv.Itoa(RandomBetween(0, 100))
 		case "null":
 			row[i] = ""
 		case "random":
@@ -86,4 +88,12 @@ func pickRandom(options []string) string {
 		return ""
 	}
 	return options[rand.Intn(len(options))]
+}
+
+func RandomBetween(min, max int) int {
+	if max < min {
+		panic("max must be greater than or equal to min")
+	}
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(max-min+1) + min
 }
